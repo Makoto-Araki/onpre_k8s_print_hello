@@ -62,7 +62,10 @@ $ code .
 ```
 
 ```note
-開発コンテナ上でターミナルを開き「python main.py」を実行して「Hello」とターミナルに表示
+開発コンテナ上でターミナルを開き「python main.py」を実行して「Hello」とターミナルに表示 ⇒ 確認OK
+```
+```note
+開発コンテナ上でターミナルを開き「python -m pytest tests/test_main.py」でテスト実施 ⇒ 確認OK
 ```
 
 ### リモートリポジトリ上に保存
