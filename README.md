@@ -36,7 +36,20 @@ $ git remote add origin git@github.com:Makoto-Araki/onpre_k8s_print_hello.git
 $ cd ~/onpre_k8s_print_hello
 $ vi Dockerfile
 
+## バッチ処理のソースファイル作成
+$ cd ~/onpre_k8s_print_hello
+$ vi main.py
+
 ## 開発イメージビルド
 $ cd ~/onpre_k8s_print_hello
-$ docker build --no-cache -t onpre_k8s_print_hello:local .
+$ docker build --no-cache -t onpre_k8s_print_hello_image .
+
+## 開発イメージからVSCode上で開発コンテナ起動
+$ cd ~/onpre_k8s_print_hello
+$ code .
 ```
+
+```note
+開発コンテナ上でターミナルを開き「python main.py」を実行して「Hello」とターミナルに表示
+```
+
