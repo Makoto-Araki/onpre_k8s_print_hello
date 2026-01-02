@@ -36,9 +36,21 @@ $ git remote add origin git@github.com:Makoto-Araki/onpre_k8s_print_hello.git
 $ cd ~/onpre_k8s_print_hello
 $ vi Dockerfile
 
-## バッチ処理のソースファイル作成
+## バッチ処理のプログラム用ディレクトリ作成
 $ cd ~/onpre_k8s_print_hello
-$ vi main.py
+$ mkdir src
+
+## バッチ処理のプログラム作成
+$ cd ~/onpre_k8s_print_hello
+$ vi src/main.py
+
+## バッチ処理のテスト用ディレクトリ作成
+$ cd ~/onpre_k8s_print_hello
+$ mkdir tests
+
+## バッチ処理のテスト用プログラム作成
+$ cd ~/onpre_k8s_print_hello
+$ vi tests/test_main.py
 
 ## 開発イメージビルド
 $ cd ~/onpre_k8s_print_hello
@@ -53,3 +65,17 @@ $ code .
 開発コンテナ上でターミナルを開き「python main.py」を実行して「Hello」とターミナルに表示
 ```
 
+### リモートリポジトリ上に保存
+```bash
+## ステージング移行
+$ cd ~/onpre_k8s_print_hello
+$ git add .
+
+$ cd ~/onpre_k8s_print_hello
+$ git commit -m バッチ処理のソース記述
+
+$ cd ~/onpre_k8s_print_hello
+$ git push origin main
+```
+
+### 

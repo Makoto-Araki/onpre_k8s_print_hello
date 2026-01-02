@@ -1,5 +1,11 @@
 FROM makotoaraki346/python_base_image:v1.0.0
 
+# パッケージ更新
+RUN apt-get update && apt-get install -y
+
+# PIP更新
+RUN pip install --upgrade pip
+
 # コンテナ内の作業ディレクトリを設定
 WORKDIR /app
 
@@ -13,4 +19,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # バッチ処理実行
-CMD ["python", "main.py"]
+CMD ["python", "src/main.py"]
