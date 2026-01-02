@@ -3,11 +3,13 @@
 ## 前提条件
 - Dockerhubにアカウント作成済
 - Dockerhubにonpre_k8s_print_helloのDockerイメージリリース済
+- DockerDesktopがローカルPC上で起動済
+- DockerDesktopでDockerhubにログイン済
 - Githubにアカウント作成済
 - Githubにonpre_k8s_print_helloのリモートリポジトリ作成済
 
 ## 処理概要
-- 標準出力にHelloとプリントする単純なバッチ処理
+- 標準出力にHelloとプリントする単純なバッチ処理の作成を通してDockerHubにアップロード、Kubernetes上で動作確認、Githb Actionsを使用したCI/CD改善を行う。
 
 ## 開発記録
 ### ローカルリポジトリ上で開発準備
