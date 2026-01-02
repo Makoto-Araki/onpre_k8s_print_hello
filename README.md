@@ -70,17 +70,28 @@ $ code .
 開発コンテナ上でターミナルを開き「python -m pytest tests/test_main.py」でテスト実施 ⇒ 確認OK
 ```
 
-### リモートリポジトリ上に保存
+### リモートリポジトリにソース保存
 ```bash
 ## ステージング移行
 $ cd ~/onpre_k8s_print_hello
 $ git add .
 
+## コミット
 $ cd ~/onpre_k8s_print_hello
 $ git commit -m バッチ処理のソース記述
 
+## リモートリポジトリに保存
 $ cd ~/onpre_k8s_print_hello
 $ git push origin main
 ```
 
-### 
+### DockerHubにイメージ保存
+```bash
+## DockerHub用イメージビルド
+$ cd ~/onpre_k8s_print_hello
+$ docker build --no-cache -t makotoaraki346/onpre_k8s_print_hello_image .
+
+## DockerHubにイメージ保存
+$ cd ~/onpre_k8s_print_hello
+$ docker push makotoaraki346/onpre_k8s_print_hello_image
+```
