@@ -140,6 +140,37 @@ $ kubectl config current-context
 ```
 
 ```note
-コンテキストを切り替えたい場合は「kubectl config use-context コンテキスト名」を使用すること
+コンテキスト切替は「kubectl config use-context コンテキスト名」を使用
+```
+
+### Cronjobの作成
+```bash
+## コンテキスト一覧
+$ cd ~/onpre_k8s_print_hello
+$ kubectl config get-contexts
+
+## コンテキスト確認
+$ cd ~/onpre_k8s_print_hello
+$ kubectl config current-context
+
+## 名前空間一覧
+$ cd ~/onpre_k8s_print_hello
+$ kubectl get namespaces
+
+## 名前空間作成
+$ cd ~/onpre_k8s_print_hello
+$ kubectl create namespace user-apps
+
+## Cronjobリソース用のYAMLファイル作成
+$ cd ~/onpre_k8s_print_hello
+$ vi onpre_k8s_print_hello.yaml
+
+## Cronjobリソース作成
+$ cd ~/onpre_k8s_print_hello
+$ kubectl apply -n user-apps -f onpre_k8s_print_hello.yaml
+
+## Cronjobリソース確認
+$ cd ~/onpre_k8s_print_hello
+$ kubectl get cronjobs -n user-apps
 ```
 
