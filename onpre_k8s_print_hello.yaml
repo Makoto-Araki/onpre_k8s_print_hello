@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  # リポジトリ名に基づいたリソース名
+  name: onpre-k8s-print-hello-cronjob
+spec:
+  # 実行スケジュールの設定（10分ごとに実行）
+  schedule: "*/10 * * * *"
+  # 成功履歴を三個まで保持
+  successfulJobsHistoryLimit: 3
+  # 失敗履歴を一個まで保持
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          # 実行時のコンテナ名
+          - name: onpre-k8s-print-hello-container
+            # DockerHub上からダウンロード
+            image: makotoaraki346/onpre_k8s_print_hello_image
+            # ローカルに無い場合のみダウンロード
+            imagePullPolicy: IfNotPresent
+            # Dockerイメージ内にCMDが無い場合に実行
+            command: ["python", "src/main.py"]
+          # 異常終了した場合のみ再起動
+          restartPolicy: OnFailure

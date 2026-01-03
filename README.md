@@ -72,21 +72,6 @@ $ code .
 開発コンテナ上でターミナルを開き「python -m pytest tests/test_main.py」でテスト実施 ⇒ 確認OK
 ```
 
-### リモートリポジトリにソース保存
-```bash
-## ステージング移行
-$ cd ~/onpre_k8s_print_hello
-$ git add .
-
-## コミット
-$ cd ~/onpre_k8s_print_hello
-$ git commit -m バッチ処理のソース記述
-
-## リモートリポジトリに保存
-$ cd ~/onpre_k8s_print_hello
-$ git push origin main
-```
-
 ### DockerHubにイメージ保存
 ```bash
 ## DockerHub用イメージビルド
@@ -143,7 +128,7 @@ $ kubectl config current-context
 コンテキスト切替は「kubectl config use-context コンテキスト名」を使用
 ```
 
-### Cronjobの作成
+### Cronjobリソース作成と動作確認
 ```bash
 ## コンテキスト一覧
 $ cd ~/onpre_k8s_print_hello
@@ -171,6 +156,18 @@ $ kubectl apply -n user-apps -f onpre_k8s_print_hello.yaml
 
 ## Cronjobリソース確認
 $ cd ~/onpre_k8s_print_hello
-$ kubectl get cronjobs -n user-apps
+$ kubectl -n user-apps get cronjobs 
+
+## Cronjobリソース動作確認1
+$ cd ~/onpre_k8s_print_hello
+$ kubectl -n user-apps get jobs ※Cronjobから起動されたJob名を確認
+
+## Cronjobリソース動作確認2
+$ cd ~/onpre_k8s_print_hello
+$ kubectl -n user-apps get pods --selector=job-name=(取得したJob名) ※Jobから起動されたPod名を確認
+
+## Cronjobリソース動作確認3
+$ cd ~/onpre_k8s_print_hello
+$ kubectl -n user-apps logs (取得したPod名) ※PodのログからHelloを確認
 ```
 
