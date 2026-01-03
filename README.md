@@ -3,8 +3,8 @@
 ## 前提条件
 - Dockerhubにアカウント作成済
 - Dockerhubにonpre_k8s_print_helloのDockerイメージリリース済
-- DockerDesktopがローカルPC上で起動済
-- DockerDesktopでDockerhubにログイン済
+- Docker-DesktopがWindows11のローカルPC上で起動済
+- Docker-DesktopでDockerhubにログイン済
 - Githubにアカウント作成済
 - Githubにonpre_k8s_print_helloのリモートリポジトリ作成済
 
@@ -97,3 +97,49 @@ $ docker build --no-cache -t makotoaraki346/onpre_k8s_print_hello_image .
 $ cd ~/onpre_k8s_print_hello
 $ docker push makotoaraki346/onpre_k8s_print_hello_image
 ```
+
+### Docker-Desktopの設定
+```note
+Docker-DesktopのSettings > Resources > WSL Integration => UbuntuスイッチをON
+Docker-DesktopのSettings > Kubernetes => Enable Kubernetesをチェック
+```
+
+### Kubectlの準備
+```bash
+## kubectlバイナリのダウンロード
+$ cd ~/onpre_k8s_print_hello
+$ curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+## kubectlバイナリに権限付与
+$ cd ~/onpre_k8s_print_hello
+$ sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+## インストール確認
+$ cd ~/onpre_k8s_print_hello
+$ kubectl version --client
+
+## ダウンロードしたkubectlバイナリ削除
+$ cd ~/onpre_k8s_print_hello
+$ rm kubectl
+
+## 既存の設定ファイル削除
+$ cd ~/.kube
+$ mv config config_old
+
+## Windows11側で起動しているDocker-Desktopの設定ファイルへのリンク作成
+$ cd ~/.kube
+$ ln -s /mnt/c/Users/(Windows側のユーザー名)/.kube/config config
+
+## コンテキスト一覧
+$ cd ~/onpre_k8s_print_hello
+$ kubectl config get-contexts
+
+## コンテキスト確認
+$ cd ~/onpre_k8s_print_hello
+$ kubectl config current-context
+```
+
+```note
+コンテキストを切り替えたい場合は「kubectl config use-context コンテキスト名」を使用すること
+```
+
