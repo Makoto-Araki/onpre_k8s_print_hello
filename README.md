@@ -3,7 +3,7 @@
 
 ## 前提条件
 - Dockerhubにアカウント作成済
-- Dockerhubにonpre_k8s_print_helloのDockerイメージリリース済
+- Dockerhubにpython_base_imageのDockerイメージリリース済
 - DockerhubにPersonal-Access-Token (PTA) 作成済
 - Docker-DesktopがWindows11のローカルPC上で起動済
 - Docker-DesktopでDockerhubにログイン済
@@ -20,6 +20,7 @@
   - Kubectlの準備
   - Kubernetes上で動作確認
   - Githb-Actionsを使用したCI/CD改善
+  - 通常リリース
 
 ## 開発記録
 ### ローカルリポジトリ上で開発準備
@@ -192,4 +193,19 @@ $ mkdir -p .github/workflows
 ## Github-Actions用のYAML作成
 $ cd ~/onpre_k8s_print_hello
 $ vi .github/workflows/docker-build-push.yml
+```
+
+### 通常リリース
+```bash
+## ステージング移行
+$ cd ~/onpre_k8s_print_hello
+$ git add .
+
+## コミット
+$ cd ~/onpre_k8s_print_hello
+$ git commit -m 通常リリース_20260103_01
+
+## 通常リリース
+$ cd ~/onpre_k8s_print_hello
+$ git push origin main
 ```
