@@ -128,7 +128,7 @@ $ kubectl config current-context
 コンテキスト切替は「kubectl config use-context コンテキスト名」を使用
 ```
 
-### Cronjobリソース作成と動作確認
+### Kubernetes上でCronjobリソース作成と動作確認
 ```bash
 ## コンテキスト一覧
 $ cd ~/onpre_k8s_print_hello
