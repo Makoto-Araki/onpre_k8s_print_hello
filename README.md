@@ -3,10 +3,12 @@
 ## 前提条件
 - Dockerhubにアカウント作成済
 - Dockerhubにonpre_k8s_print_helloのDockerイメージリリース済
+- DockerhubにPersonal-Access-Token (PTA) 作成済
 - Docker-DesktopがWindows11のローカルPC上で起動済
 - Docker-DesktopでDockerhubにログイン済
 - Githubにアカウント作成済
 - Githubにonpre_k8s_print_helloのリモートリポジトリ作成済
+- Githubのonpre_k8s_print_helloのリモートリポジトリにSecrets登録済
 
 ## 開発概要
 - バッチ処理作成
@@ -180,3 +182,13 @@ $ cd ~/onpre_k8s_print_hello
 $ kubectl -n user-apps logs (取得したPod名) ※PodのログからHelloを確認
 ```
 
+### Githb-Actionsを使用したCI/CD改善
+```bash
+## Github-Actions用のディレクトリ作成
+$ cd ~/onpre_k8s_print_hello
+$ mkdir -p .github/workflows
+
+## Github-Actions用のYAML作成
+$ cd ~/onpre_k8s_print_hello
+$ vi .github/workflows/docker-build-push.yml
+```
