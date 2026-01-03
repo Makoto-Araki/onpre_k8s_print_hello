@@ -9,7 +9,14 @@
 - Githubにonpre_k8s_print_helloのリモートリポジトリ作成済
 
 ## 開発概要
-- 標準出力にHelloとプリントする単純なバッチ処理の作成を通してDockerHubにアップロード、Kubernetes上で動作確認、Githb Actionsを使用したCI/CD改善を行う。
+- バッチ処理作成
+  - ローカルリポジトリ上で開発準備
+  - 標準出力にHelloとプリントする単純なバッチ処理の動作確認
+  - DockerHubにアップロード
+  - Docker-Desktopの設定確認
+  - Kubectlの準備
+  - Kubernetes上で動作確認
+  - Githb-Actionsを使用したCI/CD改善
 
 ## 開発記録
 ### ローカルリポジトリ上で開発準備
@@ -63,30 +70,32 @@ $ cd ~/onpre_k8s_print_hello
 $ code .
 ```
 
-### バッチ処理実行
-```note
-開発コンテナ上でターミナルを開き「python main.py」を実行して「Hello」とターミナルに表示 ⇒ 確認OK
-```
-### バッチ処理テスト実行
-```note
-開発コンテナ上でターミナルを開き「python -m pytest tests/test_main.py」でテスト実施 ⇒ 確認OK
+### 標準出力にHelloとプリントする単純なバッチ処理の動作確認
+```bash
+## 開発コンテナ上のターミナルでバッチ処理の動作確認
+$ cd ~
+$ python src/main.py
+
+## 開発コンテナ上のターミナルでバッチ処理のテスト
+$ cd ~
+$ python -m pytest tests/test_main.py
 ```
 
-### DockerHubにイメージ保存
+### DockerHubにアップロード
 ```bash
-## DockerHub用イメージビルド
+## DockerHubのイメージビルド
 $ cd ~/onpre_k8s_print_hello
 $ docker build --no-cache -t makotoaraki346/onpre_k8s_print_hello_image .
 
-## DockerHubにイメージ保存
+## DockerHubにアップロード
 $ cd ~/onpre_k8s_print_hello
 $ docker push makotoaraki346/onpre_k8s_print_hello_image
 ```
 
-### Docker-Desktopの設定
+### Docker-Desktopの設定確認
 ```note
-Docker-DesktopのSettings > Resources > WSL Integration => UbuntuスイッチをON
-Docker-DesktopのSettings > Kubernetes => Enable Kubernetesをチェック
+・Docker-DesktopのSettings > Resources > WSL Integration => UbuntuスイッチON
+・Docker-DesktopのSettings > Kubernetes => Enable Kubernetesチェック
 ```
 
 ### Kubectlの準備
@@ -122,13 +131,13 @@ $ kubectl config get-contexts
 ## コンテキスト確認
 $ cd ~/onpre_k8s_print_hello
 $ kubectl config current-context
+
+## コンテキスト切替 ※コンテキスト切替時に実行
+$ cd ~/onpre_k8s_print_hello
+$ kubectl config use-context (コンテキスト名)
 ```
 
-```note
-コンテキスト切替は「kubectl config use-context コンテキスト名」を使用
-```
-
-### Kubernetes上でCronjobリソース作成と動作確認
+### Kubernetes上で動作確認
 ```bash
 ## コンテキスト一覧
 $ cd ~/onpre_k8s_print_hello
