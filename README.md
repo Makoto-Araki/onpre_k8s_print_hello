@@ -21,6 +21,7 @@
   - Kubernetes上で動作確認
   - Githb-Actionsを使用したCI/CD改善
   - 通常リリース
+  - 安定版リリース(タグ付与)
 
 ## 開発記録
 ### ローカルリポジトリ上で開発準備
@@ -208,4 +209,23 @@ $ git commit -m 通常リリース_20260103_01
 ## 通常リリース
 $ cd ~/onpre_k8s_print_hello
 $ git push origin main
+```
+
+### 安定版リリース(タグ付与)
+```bash
+## ステージング移行
+$ cd ~/onpre_k8s_print_hello
+$ git add .
+
+## コミット
+$ cd ~/onpre_k8s_print_hello
+$ git commit -m v0.1.0
+
+## タグ付与
+$ cd ~/onpre_k8s_print_hello
+$ git tag v0.1.0
+
+## 安定板リリース(タグ付与)
+$ cd ~/onpre_k8s_print_hello
+$ git push origin main v0.1.0
 ```
