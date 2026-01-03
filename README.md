@@ -1,3 +1,4 @@
+![Build Status](https://github.com/Makoto-Araki/onpre_k8s_print_hello/actions/workflows/docker-build-push.yml/badge.svg)
 # onpre_k8s_print_hello (バッチ処理)
 
 ## 前提条件
