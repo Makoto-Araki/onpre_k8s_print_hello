@@ -33,7 +33,7 @@ jobs:
       # 3. 動作確認テスト
       - name: Run Functional Test
         run: |
-          docker run --rm -v $(pwd):/app -w /app onpre_k8s_print_hello_image:local python tests/test_main.py
+          docker run --rm -v $(pwd):/app -w /app onpre_k8s_print_hello_image:local python -m pytest tests/test_main.py
 
       # 4. DockerHubログイン
       - name: Login to DockerHub
