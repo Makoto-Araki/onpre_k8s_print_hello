@@ -5,4 +5,4 @@ def test_run_outputs_hello(capsys):
     main.run()
 
     captured = capsys.readouterr()
-    assert captured.out == "Hello\n"
+    assert captured.out == "Hello Works\n"

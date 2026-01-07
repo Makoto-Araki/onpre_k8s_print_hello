@@ -1,6 +1,6 @@
 class Main:
     def run(self):
-        print("Hello")
+        print("Hello Works")
 
 
 if __name__ == "__main__":
