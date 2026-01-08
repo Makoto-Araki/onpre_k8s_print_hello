@@ -11,19 +11,21 @@
 - Githubにonpre_k8s_print_helloのリモートリポジトリ作成済
 - Githubのonpre_k8s_print_helloのリモートリポジトリにSecrets登録済
 
-## 開発概要
-- バッチ処理作成
+## プログラム開発
+- プログラム開発
   - ローカルリポジトリ上で開発準備
   - 標準出力にHelloとプリントする単純なバッチ処理の動作確認
   - DockerHubにアップロード
   - Docker-Desktopの設定確認
   - Kubectlの準備
   - Kubernetes上で動作確認
+## プログラム保守
+- プログラム保守
   - Githb-Actionsを使用したCI/CD改善
   - 通常リリース
   - 安定版リリース(タグ付与)
 
-## 開発記録
+## プログラム開発
 ### ローカルリポジトリ上で開発準備
 ```bash
 ## ディレクトリ作成
@@ -34,11 +36,11 @@ $ mkdir onpre_k8s_print_hello
 $ cd ~/onpre_k8s_print_hello
 $ git init
 
-## ローカルリポジトリ初期設定 
+## ローカルリポジトリ設定 
 $ git config --global user.email (自分のメールアドレス)
 $ git config --global user.name Makoto-Araki
 
-## リモートリポジトリ設定
+## ローカルリポジトリ設定
 $ cd ~/onpre_k8s_print_hello
 $ git branch -M main
 
@@ -97,10 +99,14 @@ $ cd ~/onpre_k8s_print_hello
 $ docker push makotoaraki346/onpre_k8s_print_hello_image
 ```
 
-### Docker-Desktopの設定確認
+### Docker-Desktopの設定確認1
 ```note
-・Docker-DesktopのSettings > Resources > WSL Integration => UbuntuスイッチON
-・Docker-DesktopのSettings > Kubernetes => Enable Kubernetesチェック
+Docker-DesktopのSettings > Resources > WSL Integration => UbuntuスイッチON
+```
+
+### Docker-Desktopの設定確認2
+```note
+Docker-DesktopのSettings > Kubernetes => Enable Kubernetesチェック
 ```
 
 ### Kubectlの準備
@@ -185,47 +191,117 @@ $ cd ~/onpre_k8s_print_hello
 $ kubectl -n user-apps logs (取得したPod名) ※PodのログからHelloを確認
 ```
 
+## プログラム保守
 ### Githb-Actionsを使用したCI/CD改善
 ```bash
 ## Github-Actions用のディレクトリ作成
 $ cd ~/onpre_k8s_print_hello
 $ mkdir -p .github/workflows
 
-## Github-Actions用のYAML作成
+## Github-Actions用のYAML作成1
 $ cd ~/onpre_k8s_print_hello
-$ vi .github/workflows/docker-build-push.yml
-```
+$ vi .github/workflows/pull_request_ci.yml
 
-### 通常リリース
-```bash
-## ステージング移行
+## Github-Actions用のYAML作成2
+$ cd ~/onpre_k8s_print_hello
+$ vi .github/workflows/main_ci.yml
+
+## Github-Actions用のYAML作成3
+$ cd ~/onpre_k8s_print_hello
+$ vi .github/workflows/release.yml
+
+## Github-Actions用のYAMLプッシュ1
 $ cd ~/onpre_k8s_print_hello
 $ git add .
 
-## コミット
+## Github-Actions用のYAMLプッシュ2
 $ cd ~/onpre_k8s_print_hello
-$ git commit -m 通常リリース_20260103_01
+$ git commit -m Github-Actions用YAMLプッシュ
 
-## 通常リリース
+## Github-Actions用のYAMLプッシュ3
 $ cd ~/onpre_k8s_print_hello
 $ git push origin main
 ```
 
-### 安定版リリース(タグ付与)
+### ブランチ上で開発
 ```bash
-## ステージング移行
+## ブランチ一覧
+$ cd ~/onpre_k8s_print_hello
+$ git branch
+
+## ブランチ作成
+$ cd ~/onpre_k8s_print_hello
+$ git checkout -b feature/hello-tiger
+
+## ブランチ確認
+$ cd ~/onpre_k8s_print_hello
+$ git branch
+
+## ブランチ上で開発1
+$ cd ~/onpre_k8s_print_hello
+$ vi src/main.py
+
+## ブランチ上で開発2
+$ cd ~/onpre_k8s_print_hello
+$ vi tests/test_main.py
+
+## ブランチ上の変更ファイル確認
+$ cd ~/onpre_k8s_print_hello
+$ git status
+
+## ブランチ上の変更ファイル差分
+$ cd ~/onpre_k8s_print_hello
+$ git diff
+
+## ブランチ上の変更ファイルをステージング移行
 $ cd ~/onpre_k8s_print_hello
 $ git add .
 
-## コミット
+## ブランチ上の変更ファイルをコミット
 $ cd ~/onpre_k8s_print_hello
-$ git commit -m v0.1.0
+$ git commit -m feature/hello-tiger:メッセージ変更
 
+## ブランチ上の変更ファイルを対象ブランチにプッシュ
+$ cd ~/onpre_k8s_print_hello
+$ git push origin feature/hello-tiger
+```
+
+### GithubでPR作成
+```note
+PR作成後にGithub-Actionsのpull_request_ci.ymlが実行される。
+```
+
+### Githubでマージ
+```note
+マージ後にGithub-Actionsのmain_ci.ymlが実行され、mainブランチが最新の状態になる。
+```
+
+### Githubからmainブランチをプル
+```bash
+## ブランチ確認
+$ cd ~/onpre_k8s_print_hello
+$ git branch
+
+## ブランチをmainブランチに戻す
+$ cd ~/onpre_k8s_print_hello
+$ git checkout main
+
+## ブランチ確認
+$ cd ~/onpre_k8s_print_hello
+$ git branch
+
+## Githubからmainブランチをプル
+$ cd ~/onpre_k8s_print_hello
+$ git pull origin main
+```
+
+### リリース
+```bash
 ## タグ付与
 $ cd ~/onpre_k8s_print_hello
-$ git tag v0.1.0
+$ git tag v0.3.0
 
-## 安定板リリース(タグ付与)
+## リリース
 $ cd ~/onpre_k8s_print_hello
-$ git push origin main v0.1.0
+$ git push origin main v0.3.0
 ```
