@@ -20,12 +20,12 @@
 - Kubernetes上で動作確認
 
 ## プログラム保守
-  - Githb-Actionsを使用したCI/CD改善
-  - ブランチ上で開発
-  - GithubでPR作成
-  - Githubでマージ
-  - Githubからmainブランチをプル
-  - リリース
+- Githb-Actionsを使用したCI/CD改善
+- ブランチ上で開発
+- GithubでPR作成
+- Githubでマージ
+- Githubからmainブランチをプル
+- リリース
 
 ## プログラム開発
 ### ローカルリポジトリ上で開発準備
