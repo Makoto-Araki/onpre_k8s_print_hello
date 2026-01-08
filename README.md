@@ -12,18 +12,20 @@
 - Githubのonpre_k8s_print_helloのリモートリポジトリにSecrets登録済
 
 ## プログラム開発
-- プログラム開発
-  - ローカルリポジトリ上で開発準備
-  - 標準出力にHelloとプリントする単純なバッチ処理の動作確認
-  - DockerHubにアップロード
-  - Docker-Desktopの設定確認
-  - Kubectlの準備
-  - Kubernetes上で動作確認
+- ローカルリポジトリ上で開発準備
+- 標準出力にHelloとプリントする単純なバッチ処理の動作確認
+- DockerHubにアップロード
+- Docker-Desktopの設定確認
+- Kubectlの準備
+- Kubernetes上で動作確認
+
 ## プログラム保守
-- プログラム保守
   - Githb-Actionsを使用したCI/CD改善
-  - 通常リリース
-  - 安定版リリース(タグ付与)
+  - ブランチ上で開発
+  - GithubでPR作成
+  - Githubでマージ
+  - Githubからmainブランチをプル
+  - リリース
 
 ## プログラム開発
 ### ローカルリポジトリ上で開発準備
