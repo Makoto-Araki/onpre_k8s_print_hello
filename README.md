@@ -255,7 +255,7 @@ $ git push origin main
 ### GithubでIssue作成
 ![github_readme_01](images/github_readme_01.png)
 
-### 別ブランチ上で開発作業 ※今回はREADME修正のIssueのため修正ファイルはREADMEのみ
+### 別ブランチ上で開発作業 ※今回の修正ファイルはREADMEのみ
 ```bash
 ## ブランチ一覧
 $ cd ~/onpre_k8s_print_hello
@@ -294,17 +294,32 @@ $ cd ~/onpre_k8s_print_hello
 $ git push origin feature/fix-readme
 ```
 
-### GithubでPR作成
+### GithubでPR作成1
+![github_readme_02](images/github_readme_02.png)
+
+### GithubでPR作成2
+![github_readme_03](images/github_readme_03.png)
+
 ```note
 PR作成後にGithub-Actionsのpull_request_ci.ymlが実行される。
 ```
 
-### Githubでマージ
+### Githubでマージ1
+![github_readme_04](images/github_readme_04.png)
+
+### Githubでマージ2
+![github_readme_05](images/github_readme_05.png)
+
 ```note
 マージ後にGithub-Actionsのmain_ci.ymlが実行され、mainブランチが最新の状態になる。
 ```
 
-### Githubの別ブランチをマージ後に削除
+### Githubの別ブランチをマージ後に削除1
+![github_readme_06](images/github_readme_06.png)
+
+### Githubの別ブランチをマージ後に削除2
+![github_readme_07](images/github_readme_07.png)
+
 ```note
 マージ後に別ブランチ削除を行い不要ブランチは持たない。
 ```
@@ -328,7 +343,7 @@ $ cd ~/onpre_k8s_print_hello
 $ git branch -d feature/fix-readme
 ```
 
-### リリース ※プログラム修正などでDockerHubに最新のDockerイメージのアップが必要な時に実行
+### リリース1
 ```bash
 ## タグ付与
 $ cd ~/onpre_k8s_print_hello
@@ -339,13 +354,17 @@ $ cd ~/onpre_k8s_print_hello
 $ git push origin main v0.4.0
 ```
 
-### リリース後
+### リリース2
 ```note
 マージ後にGithub-Actionsのrelease.ymlが実行され、DockerHubに指定タグでDockerイメージがアップロードされる。
 ```
 
-### Docker-Desktop上のKubernetesクラスタのCronjobリソースを更新
+### Docker-Desktop上のKubernetesクラスタ更新
 ```bash
+## Cronjobリソース用のYAML更新
+$ cd ~/onpre_k8s_print_hello
+$ vi onpre_k8s_print_hello.yaml
+
 ## コンテキスト一覧
 $ cd ~/onpre_k8s_print_hello
 $ kubectl config get-contexts
@@ -372,9 +391,9 @@ $ kubectl -n user-apps get jobs ※Cronjobから起動されたJob名を確認
 
 ## Cronjobリソース動作確認2
 $ cd ~/onpre_k8s_print_hello
-$ kubectl -n user-apps get pods --selector=job-name=(取得したJob名) ※Jobから起動されたPod名を確認
+$ kubectl -n user-apps get pods --selector=job-name=(取得したJob名)
 
 ## Cronjobリソース動作確認3
 $ cd ~/onpre_k8s_print_hello
-$ kubectl -n user-apps logs (取得したPod名) ※PodのログからHelloを確認
+$ kubectl -n user-apps logs (取得したPod名)
 ```
