@@ -1,6 +1,6 @@
-![Build Status](https://github.com/Makoto-Araki/onpre_k8s_print_hello/actions/workflows/pull-request-ci.yml/badge.svg)
-![Build Status](https://github.com/Makoto-Araki/onpre_k8s_print_hello/actions/workflows/main-ci.yml/badge.svg)
-![Build Status](https://github.com/Makoto-Araki/onpre_k8s_print_hello/actions/workflows/release.yml/badge.svg)
+![PullRequest Status](https://github.com/Makoto-Araki/onpre_k8s_print_hello/actions/workflows/pull-request-ci.yml/badge.svg)
+![Main Status](https://github.com/Makoto-Araki/onpre_k8s_print_hello/actions/workflows/main-ci.yml/badge.svg)
+![Release Status](https://github.com/Makoto-Araki/onpre_k8s_print_hello/actions/workflows/release.yml/badge.svg)
 
 # onpre_k8s_print_hello (バッチ処理)
 
