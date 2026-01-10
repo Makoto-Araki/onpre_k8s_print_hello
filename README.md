@@ -18,17 +18,24 @@
 - ローカルリポジトリ上で開発準備
 - 標準出力にHelloとプリントする単純なバッチ処理の動作確認
 - DockerHubにアップロード
-- Docker-Desktopの設定確認
+- Docker-Desktop上の設定確認1
+- Docker-Desktop上の設定確認2
 - Kubectlの準備
-- Kubernetes上で動作確認
+- Docker-Desktop上のKubernetesクラスタで動作確認
+
+## CI改善
+- Githb-Actionsを使用したCI改善
 
 ## プログラム保守
-- Githb-Actionsを使用したCI/CD改善
-- ブランチ上で開発
+- GithubでIssue作成
+- 別ブランチ上で開発作業
 - GithubでPR作成
 - Githubでマージ
+- Githubの別ブランチをマージ後に削除
 - Githubからmainブランチをプル
 - リリース
+- リリース後
+- Docker-Desktop上のKubernetesクラスタのCronjobリソースを更新
 
 ## プログラム開発
 ### ローカルリポジトリ上で開発準備
@@ -73,6 +80,22 @@ $ mkdir tests
 $ cd ~/onpre_k8s_print_hello
 $ vi tests/test_main.py
 
+## 開発コンテナのディレクトリ作成
+$ cd ~/onpre_k8s_print_hello
+$ mkdir .devcontainer
+
+## 開発コンテナの設定ファイル作成
+$ cd ~/onpre_k8s_print_hello
+$ vi .devcontainer/devcontainer.json
+
+## VSCode用のディレクトリ作成
+$ cd ~/onpre_k8s_print_hello
+$ mkdir .vscode
+
+## VSCode用の設定ファイル作成
+$ cd ~/onpre_k8s_print_hello
+$ vi settings.json
+
 ## 開発イメージビルド
 $ cd ~/onpre_k8s_print_hello
 $ docker build --no-cache -t onpre_k8s_print_hello_image .
@@ -104,14 +127,14 @@ $ cd ~/onpre_k8s_print_hello
 $ docker push makotoaraki346/onpre_k8s_print_hello_image
 ```
 
-### Docker-Desktopの設定確認1
+### Docker-Desktop上の設定確認1
 ```note
-Docker-DesktopのSettings > Resources > WSL Integration => UbuntuスイッチON
+Settings > Resources > WSL Integration => Ubuntu スイッチON
 ```
 
-### Docker-Desktopの設定確認2
+### Docker-Desktop上の設定確認2
 ```note
-Docker-DesktopのSettings > Kubernetes => Enable Kubernetesチェック
+Settings > Kubernetes => Enable Kubernetes スイッチON
 ```
 
 ### Kubectlの準備
@@ -136,7 +159,7 @@ $ rm kubectl
 $ cd ~/.kube
 $ mv config config_old
 
-## Windows11側で起動しているDocker-Desktopの設定ファイルへのリンク作成
+## Windows11側で起動しているDocker-Desktop上の設定ファイルへのリンク作成
 $ cd ~/.kube
 $ ln -s /mnt/c/Users/(Windows側のユーザー名)/.kube/config config
 
@@ -153,7 +176,7 @@ $ cd ~/onpre_k8s_print_hello
 $ kubectl config use-context (コンテキスト名)
 ```
 
-### Kubernetes上で動作確認
+### Docker-Desktop上のKubernetesクラスタで動作確認
 ```bash
 ## コンテキスト一覧
 $ cd ~/onpre_k8s_print_hello
@@ -196,8 +219,8 @@ $ cd ~/onpre_k8s_print_hello
 $ kubectl -n user-apps logs (取得したPod名) ※PodのログからHelloを確認
 ```
 
-## プログラム保守
-### Githb-Actionsを使用したCI/CD改善
+## CI改善
+### Githb-Actionsを使用したCI改善
 ```bash
 ## Github-Actions用のディレクトリ作成
 $ cd ~/onpre_k8s_print_hello
@@ -228,47 +251,47 @@ $ cd ~/onpre_k8s_print_hello
 $ git push origin main
 ```
 
-### ブランチ上で開発
+## プログラム保守
+### GithubでIssue作成
+![github_readme_01](images/github_readme_01.png)
+
+### 別ブランチ上で開発作業 ※今回はREADME修正のIssueのため修正ファイルはREADMEのみ
 ```bash
 ## ブランチ一覧
 $ cd ~/onpre_k8s_print_hello
 $ git branch
 
-## ブランチ作成
+## 別ブランチ作成
 $ cd ~/onpre_k8s_print_hello
-$ git checkout -b feature/hello-tiger
+$ git checkout -b feature/fix-readme
 
-## ブランチ確認
+## 別ブランチをGithub上に作成
 $ cd ~/onpre_k8s_print_hello
-$ git branch
+$ git push -u origin feature/fix-readme
 
-## ブランチ上で開発1
+## 別ブランチ上で開発
 $ cd ~/onpre_k8s_print_hello
-$ vi src/main.py
+$ vi README.md
 
-## ブランチ上で開発2
-$ cd ~/onpre_k8s_print_hello
-$ vi tests/test_main.py
-
-## ブランチ上の変更ファイル確認
+## 別ブランチ上の変更ファイル確認
 $ cd ~/onpre_k8s_print_hello
 $ git status
 
-## ブランチ上の変更ファイル差分
+## 別ブランチ上の変更ファイル差分
 $ cd ~/onpre_k8s_print_hello
 $ git diff
 
-## ブランチ上の変更ファイルをステージング移行
+## 別ブランチ上の変更ファイルをステージング移行
 $ cd ~/onpre_k8s_print_hello
 $ git add .
 
-## ブランチ上の変更ファイルをコミット
+## 別ブランチ上の変更ファイルをコミット ※#16はIssue番号
 $ cd ~/onpre_k8s_print_hello
-$ git commit -m feature/hello-tiger:メッセージ変更
+$ git commit -m 'feat:fix-readme (#16)'
 
 ## ブランチ上の変更ファイルを対象ブランチにプッシュ
 $ cd ~/onpre_k8s_print_hello
-$ git push origin feature/hello-tiger
+$ git push origin feature/fix-readme
 ```
 
 ### GithubでPR作成
@@ -281,6 +304,11 @@ PR作成後にGithub-Actionsのpull_request_ci.ymlが実行される。
 マージ後にGithub-Actionsのmain_ci.ymlが実行され、mainブランチが最新の状態になる。
 ```
 
+### Githubの別ブランチをマージ後に削除
+```note
+マージ後に別ブランチ削除を行い不要ブランチは持たない。
+```
+
 ### Githubからmainブランチをプル
 ```bash
 ## ブランチ確認
@@ -291,22 +319,62 @@ $ git branch
 $ cd ~/onpre_k8s_print_hello
 $ git checkout main
 
-## ブランチ確認
-$ cd ~/onpre_k8s_print_hello
-$ git branch
-
-## Githubからmainブランチをプル
+## Github上のmainブランチの内容をプル
 $ cd ~/onpre_k8s_print_hello
 $ git pull origin main
+
+## 別ブランチを削除
+$ cd ~/onpre_k8s_print_hello
+$ git branch -d feature/fix-readme
 ```
 
-### リリース
+### リリース ※プログラム修正などでDockerHubに最新のDockerイメージのアップが必要な時に実行
 ```bash
 ## タグ付与
 $ cd ~/onpre_k8s_print_hello
-$ git tag v0.3.0
+$ git tag v0.4.0
 
 ## リリース
 $ cd ~/onpre_k8s_print_hello
-$ git push origin main v0.3.0
+$ git push origin main v0.4.0
+```
+
+### リリース後
+```note
+マージ後にGithub-Actionsのrelease.ymlが実行され、DockerHubに指定タグでDockerイメージがアップロードされる。
+```
+
+### Docker-Desktop上のKubernetesクラスタのCronjobリソースを更新
+```bash
+## コンテキスト一覧
+$ cd ~/onpre_k8s_print_hello
+$ kubectl config get-contexts
+
+## コンテキスト確認
+$ cd ~/onpre_k8s_print_hello
+$ kubectl config current-context
+
+## Cronjobリソースの差分確認
+$ cd ~/onpre_k8s_print_hello
+$ kubectl diff -n user-apps -f onpre_k8s_print_hello.yaml
+
+## Cronjobリソースの更新
+$ cd ~/onpre_k8s_print_hello
+$ kubectl apply -n user-apps -f onpre_k8s_print_hello.yaml
+
+## Cronjobリソース確認
+$ cd ~/onpre_k8s_print_hello
+$ kubectl -n user-apps get cronjobs 
+
+## Cronjobリソース動作確認1
+$ cd ~/onpre_k8s_print_hello
+$ kubectl -n user-apps get jobs ※Cronjobから起動されたJob名を確認
+
+## Cronjobリソース動作確認2
+$ cd ~/onpre_k8s_print_hello
+$ kubectl -n user-apps get pods --selector=job-name=(取得したJob名) ※Jobから起動されたPod名を確認
+
+## Cronjobリソース動作確認3
+$ cd ~/onpre_k8s_print_hello
+$ kubectl -n user-apps logs (取得したPod名) ※PodのログからHelloを確認
 ```
