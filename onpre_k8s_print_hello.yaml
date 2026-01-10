@@ -18,7 +18,7 @@ spec:
           # 実行時のコンテナ名
           - name: onpre-k8s-print-hello-container
             # DockerHub上からダウンロード
-            image: makotoaraki346/onpre_k8s_print_hello_image
+            image: makotoaraki346/onpre_k8s_print_hello_image:v0.4.1
             # ローカルに無い場合のみダウンロード
             imagePullPolicy: IfNotPresent
             # Dockerイメージ内にCMDが無い場合に実行
