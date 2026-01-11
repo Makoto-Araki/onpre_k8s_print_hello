@@ -1,7 +1,11 @@
 FROM makotoaraki346/python_base_image:v1.0.0
 
 # パッケージ更新
-RUN apt-get update && apt-get install -y
+RUN apt-get update \
+ && apt-get upgrade -y \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
 
 # PIP更新
 RUN pip install --upgrade pip
