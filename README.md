@@ -29,13 +29,16 @@
 ## プログラム保守
 - GithubでIssue作成
 - 別ブランチ上で開発作業
-- GithubでPR作成
-- Githubでマージ
-- Githubの別ブランチをマージ後に削除
+- GithubでPR作成1
+- GithubでPR作成2
+- Githubでマージ1
+- Githubでマージ2
+- Githubの別ブランチをマージ後に削除1
+- Githubの別ブランチをマージ後に削除2
 - Githubからmainブランチをプル
-- リリース
-- リリース後
-- Docker-Desktop上のKubernetesクラスタのCronjobリソースを更新
+- リリース1
+- リリース2
+- GithubとKubernetesの手動同期
 
 ## プログラム開発
 ### ローカルリポジトリ上で開発準備
@@ -94,7 +97,7 @@ $ mkdir .vscode
 
 ## VSCode用の設定ファイル作成
 $ cd ~/onpre_k8s_print_hello
-$ vi settings.json
+$ vi .vscode/settings.json
 
 ## 開発イメージビルド
 $ cd ~/onpre_k8s_print_hello
@@ -198,7 +201,11 @@ $ kubectl create namespace user-apps
 $ cd ~/onpre_k8s_print_hello
 $ vi onpre_k8s_print_hello.yaml
 
-## Cronjobリソース作成
+## Cronjobリソース差分表示
+$ cd ~/onpre_k8s_print_hello
+$ kubectl diff -n user-apps -f onpre_k8s_print_hello.yaml
+
+## Cronjobリソース作成または更新
 $ cd ~/onpre_k8s_print_hello
 $ kubectl apply -n user-apps -f onpre_k8s_print_hello.yaml
 
@@ -251,11 +258,86 @@ $ cd ~/onpre_k8s_print_hello
 $ git push origin main
 ```
 
+## CD改善
+### Argo-CD本体
+```bash
+## Kubernetesクラスタにnamespace作成
+$ cd ~/onpre_k8s_print_hello
+$ kubectl create namespace argocd
+
+## Argo-CD本体
+$ cd ~/onpre_k8s_print_hello
+$ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+## Argo-CD本体のPod群の状態がRunningか確認
+$ cd ~/onpre_k8s_print_hello
+$ kubectl get pods -n argocd
+
+## Argo-CD本体のログインパスワード取得
+$ cd ~/onpre_k8s_print_hello
+$ kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
+
+## Argo-CD本体の接続設定
+$ cd ~/onpre_k8s_print_hello
+$ kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+
+### Argo-CD-CLIを導入 ※別ターミナルで実行
+```bash
+## Argo-CD-CLIのダウンロード
+$ cd ~/onpre_k8s_print_hello
+$ curl -LO https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+
+## Argo-CD-CLIに実行権限付与
+$ cd ~/onpre_k8s_print_hello
+$ chmod +x argocd-linux-amd64
+
+## システムディレクトリに移動
+$ cd ~/onpre_k8s_print_hello
+$ sudo mv argocd-linux-amd64 /usr/local/bin/argocd
+
+## Argo-CD-CLIのコマンド確認
+$ cd ~/onpre_k8s_print_hello
+$ argocd version
+
+## Argo-CD本体にログイン
+$ cd ~/onpre_k8s_print_hello
+$ argocd login localhost:8080 # 認証情報は「admin/上記のログインパスワード」
+
+## Argo-CD本体にアプリ登録
+$ cd ~/onpre_k8s_print_hello
+$ argocd app create onpre-k8s-print-hello \
+    --repo https://github.com/Makoto-Araki/onpre_k8s_print_hello.git \
+    --path . \  # YAMLファイルの存在する場所
+    --dest-server https://kubernetes.default.svc \  # Kubernetesクラスタ名(固定)
+    --dest-namespace user-apps  # Kubernetesクラスタのnamespace名
+
+## Argo-CD本体のアプリ一覧
+$ cd ~/onpre_k8s_print_hello
+$ argocd app list
+
+## Argo-CD本体のアプリ詳細
+$ cd ~/onpre_k8s_print_hello
+$ argocd app get onpre-k8s-print-hello
+
+## Argo-CD本体のアプリ手動同期
+$ cd ~/onpre_k8s_print_hello
+$ argocd app sync onpre-k8s-print-hello  # GitのYAML内容がKubernetesクラスタに反映
+
+## Argo-CD本体のアプリ詳細
+$ cd ~/onpre_k8s_print_hello
+$ argocd app get onpre-k8s-print-hello
+
+## Argo-CD本体からログアウト
+$ cd ~/onpre_k8s_print_hello
+$ argocd logout
+```
+
 ## プログラム保守
 ### GithubでIssue作成
 ![github_readme_01](images/github_readme_01.png)
 
-### 別ブランチ上で開発作業 ※今回の修正ファイルはREADMEのみ
+### 別ブランチ上で開発作業
 ```bash
 ## ブランチ一覧
 $ cd ~/onpre_k8s_print_hello
@@ -263,15 +345,23 @@ $ git branch
 
 ## 別ブランチ作成
 $ cd ~/onpre_k8s_print_hello
-$ git checkout -b feature/fix-readme
+$ git checkout -b feature/fix-source
 
 ## 別ブランチをGithub上に作成
 $ cd ~/onpre_k8s_print_hello
-$ git push -u origin feature/fix-readme
+$ git push -u origin feature/fix-source
 
-## 別ブランチ上で開発
+## 別ブランチ上で開発1
 $ cd ~/onpre_k8s_print_hello
-$ vi README.md
+$ vi src/main.py
+
+## 別ブランチ上で開発2
+$ cd ~/onpre_k8s_print_hello
+$ vi tests/test_main.py
+
+## Cronjobリソース用のYAML更新
+$ cd ~/onpre_k8s_print_hello
+$ vi onpre_k8s_print_hello.yaml
 
 ## 別ブランチ上の変更ファイル確認
 $ cd ~/onpre_k8s_print_hello
@@ -287,11 +377,11 @@ $ git add .
 
 ## 別ブランチ上の変更ファイルをコミット ※#16はIssue番号
 $ cd ~/onpre_k8s_print_hello
-$ git commit -m 'feat:fix-readme (#16)'
+$ git commit -m 'feat:fix-source (#16)'
 
 ## ブランチ上の変更ファイルを対象ブランチにプッシュ
 $ cd ~/onpre_k8s_print_hello
-$ git push origin feature/fix-readme
+$ git push origin feature/fix-source
 ```
 
 ### GithubでPR作成1
@@ -340,46 +430,50 @@ $ git pull origin main
 
 ## 別ブランチを削除
 $ cd ~/onpre_k8s_print_hello
-$ git branch -d feature/fix-readme
+$ git branch -d feature/fix-source
 ```
 
 ### リリース1
 ```bash
 ## タグ付与
 $ cd ~/onpre_k8s_print_hello
-$ git tag v0.4.0
+$ git tag vX.Y.Z
 
 ## リリース
 $ cd ~/onpre_k8s_print_hello
-$ git push origin main v0.4.0
+$ git push origin main vX.Y.Z
 ```
 
 ### リリース2
 ```note
-マージ後にGithub-Actionsのrelease.ymlが実行され、DockerHubに指定タグでDockerイメージがアップロードされる。
+マージ後にGithub-Actionsのrelease.ymlが実行され、DockerHubに指定タグでDockerイメージ更新。
 ```
 
-### Docker-Desktop上のKubernetesクラスタ更新
+### GithubとKubernetesの手動同期
 ```bash
-## Cronjobリソース用のYAML更新
+## Argo-CD本体にログイン
 $ cd ~/onpre_k8s_print_hello
-$ vi onpre_k8s_print_hello.yaml
+$ argocd login localhost:8080 # 認証情報は「admin/上記のログインパスワード」
 
-## コンテキスト一覧
+## Argo-CD本体のアプリ一覧
 $ cd ~/onpre_k8s_print_hello
-$ kubectl config get-contexts
+$ argocd app list
 
-## コンテキスト確認
+## Argo-CD本体のアプリ詳細
 $ cd ~/onpre_k8s_print_hello
-$ kubectl config current-context
+$ argocd app get onpre-k8s-print-hello
 
-## Cronjobリソースの差分確認
+## Argo-CD本体のアプリ手動同期
 $ cd ~/onpre_k8s_print_hello
-$ kubectl diff -n user-apps -f onpre_k8s_print_hello.yaml
+$ argocd app sync onpre-k8s-print-hello  # GitのYAML内容がKubernetesクラスタに反映
 
-## Cronjobリソースの更新
+## Argo-CD本体のアプリ詳細
 $ cd ~/onpre_k8s_print_hello
-$ kubectl apply -n user-apps -f onpre_k8s_print_hello.yaml
+$ argocd app get onpre-k8s-print-hello
+
+## Argo-CD本体からログアウト
+$ cd ~/onpre_k8s_print_hello
+$ argocd logout
 
 ## Cronjobリソース確認
 $ cd ~/onpre_k8s_print_hello
