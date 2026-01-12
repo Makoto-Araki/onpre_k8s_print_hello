@@ -4,6 +4,9 @@
 
 # onpre_k8s_print_hello (バッチ処理)
 
+## はじめての方へ
+[はじめての方へ](README_beginner.md)
+
 ## 前提条件
 - Dockerhubにアカウント作成済
 - Dockerhubにpython_base_imageのDockerイメージリリース済
@@ -13,32 +16,6 @@
 - Githubにアカウント作成済
 - Githubにonpre_k8s_print_helloのリモートリポジトリ作成済
 - Githubのonpre_k8s_print_helloのリモートリポジトリにSecrets登録済
-
-## プログラム開発
-- ローカルリポジトリ上で開発準備
-- 標準出力にHelloとプリントする単純なバッチ処理の動作確認
-- DockerHubにアップロード
-- Docker-Desktop上の設定確認1
-- Docker-Desktop上の設定確認2
-- Kubectlの準備
-- Docker-Desktop上のKubernetesクラスタで動作確認
-
-## CI改善
-- Githb-Actionsを使用したCI改善
-
-## プログラム保守
-- GithubでIssue作成
-- 別ブランチ上で開発作業
-- GithubでPR作成1
-- GithubでPR作成2
-- Githubでマージ1
-- Githubでマージ2
-- Githubの別ブランチをマージ後に削除1
-- Githubの別ブランチをマージ後に削除2
-- Githubからmainブランチをプル
-- リリース1
-- リリース2
-- GithubとKubernetesの手動同期
 
 ## プログラム開発
 ### ローカルリポジトリ上で開発準備
@@ -473,7 +450,7 @@ $ argocd app get onpre-k8s-print-hello
 
 ## Argo-CD本体からログアウト
 $ cd ~/onpre_k8s_print_hello
-$ argocd logout
+$ argocd logout localhost:8080
 
 ## Cronjobリソース確認
 $ cd ~/onpre_k8s_print_hello
