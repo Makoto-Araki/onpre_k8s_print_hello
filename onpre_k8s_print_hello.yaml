@@ -6,6 +6,14 @@ metadata:
 spec:
   # 実行スケジュールの設定（10分ごとに実行）
   schedule: "*/10 * * * *"
+  # 前回Jobが終了しない限り次を起動しない
+  concurrencyPolicy: Forbid
+  # 失敗時のリトライ回数
+  backoffLimit: 1
+  # 同時実行数の上限
+  parallelisum: 1
+  # Job完了とする成功回数
+  completions: 1
   # 成功履歴を三個まで保持
   successfulJobsHistoryLimit: 3
   # 失敗履歴を一個まで保持
